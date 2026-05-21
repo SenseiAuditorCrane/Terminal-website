@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terminal Ghost Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <section id="login-view" class="login-view">
+      <form id="login-form" class="login-panel">
+        <div>
+          <p class="eyebrow">Admin Access</p>
+          <h1>Terminal Ghost</h1>
+        </div>
+        <label class="field">
+          <span>Admin key</span>
+          <input id="admin-key" type="password" autocomplete="current-password" placeholder="TG-XXXX..." required>
+        </label>
+        <button class="button primary" type="submit">Р’РѕР№С‚Рё</button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="dashboard-view" class="dashboard hidden">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Panel</p>
+          <h2>Admin</h2>
+        </div>
+        <nav>
+          <a href="#users" class="nav-link active">РџРѕР»СЊР·РѕРІР°С‚РµР»Рё</a>
+          <a href="#sessions" class="nav-link">РђРєС‚РёРІРЅС‹Рµ</a>
+          <a href="#create" class="nav-link">РЎРѕР·РґР°С‚СЊ</a>
+        </nav>
+        <button id="logout-button" class="button ghost" type="button">Р’С‹Р№С‚Рё</button>
+      </aside>
+
+      <section class="content">
+        <header class="content-header">
+          <div>
+            <h1>РЈРїСЂР°РІР»РµРЅРёРµ РґРѕСЃС‚СѓРїРѕРј</h1>
+            <p>РџРѕРґРїРёСЃРєРё, СЂРѕР»Рё Рё Р°РєС‚РёРІРЅС‹Рµ СЃРµСЃСЃРёРё РєР»РёРµРЅС‚Р°.</p>
+          </div>
+          <button id="refresh-button" class="button" type="button">РћР±РЅРѕРІРёС‚СЊ</button>
+        </header>
+
+        <section class="stats-grid" aria-label="РЎС‚Р°С‚РёСЃС‚РёРєР°">
+          <article class="stat">
+            <span>Р’СЃРµРіРѕ</span>
+            <strong id="stat-users">0</strong>
+          </article>
+          <article class="stat">
+            <span>РђРєС‚РёРІРЅС‹</span>
+            <strong id="stat-active">0</strong>
+          </article>
+          <article class="stat">
+            <span>Beta</span>
+            <strong id="stat-beta">0</strong>
+          </article>
+          <article class="stat">
+            <span>Р‘РµР· РґРѕСЃС‚СѓРїР°</span>
+            <strong id="stat-disabled">0</strong>
+          </article>
+        </section>
+
+        <section id="create" class="panel">
+          <div class="panel-head">
+            <h2>РЎРѕР·РґР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</h2>
+          </div>
+          <form id="create-user-form" class="create-grid">
+            <label class="field">
+              <span>Р›РѕРіРёРЅ</span>
+              <input id="new-login" type="text" autocomplete="off" placeholder="nickname" required>
+            </label>
+            <label class="field">
+              <span>Р”РЅРµР№ РїРѕРґРїРёСЃРєРё</span>
+              <input id="new-days" type="number" min="1" max="3650" value="30" required>
+            </label>
+            <label class="checkbox">
+              <input id="new-beta" type="checkbox">
+              <span>Р РѕР»СЊ beta</span>
+            </label>
+            <button class="button primary" type="submit">РЎРѕР·РґР°С‚СЊ</button>
+          </form>
+          <p id="new-user-key" class="copy-output"></p>
+        </section>
+
+        <section id="sessions" class="panel">
+          <div class="panel-head">
+            <h2>РђРєС‚РёРІРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё</h2>
+            <span id="sessions-updated" class="muted"></span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Р›РѕРіРёРЅ</th>
+                  <th>РРіСЂР°</th>
+                  <th>Р’РµСЂСЃРёСЏ</th>
+                  <th>HWID</th>
+                  <th>IP</th>
+                  <th>РџРѕСЃР»РµРґРЅРёР№ СЃРёРіРЅР°Р»</th>
+                </tr>
+              </thead>
+              <tbody id="sessions-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="users" class="panel">
+          <div class="panel-head">
+            <h2>РђРєРєР°СѓРЅС‚С‹</h2>
+            <input id="user-filter" class="search" type="search" placeholder="РџРѕРёСЃРє Р»РѕРіРёРЅР°">
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Р›РѕРіРёРЅ</th>
+                  <th>Р РѕР»Рё</th>
+                  <th>HWID</th>
+                  <th>РџРѕРґРїРёСЃРєР°</th>
+                  <th>РђРєС‚РёРІРЅС‹Рµ</th>
+                  <th>Р”РµР№СЃС‚РІРёСЏ</th>
+                </tr>
+              </thead>
+              <tbody id="users-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="admin.js"></script>
+  <script src="client-guard.js"></script>
+</body>
+</html>
